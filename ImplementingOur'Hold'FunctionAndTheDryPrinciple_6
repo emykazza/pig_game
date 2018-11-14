@@ -1,0 +1,166 @@
+/*
+
+* How to use functions to correctly apply the DRY principle;
+
+* How to think about the game logic like a programmer.
+
+*/
+
+We have no way of holding our points and updating our global scores.
+
+Once again we will setup another event listener but this time it will be for the other button "hold".
+
+check out your html document for which button that is.  it will be "btn-hold"
+
+add event listener upon click we will add an anonoymous function which as you remember is a function that doesn't have a name and that we cannot reuse in another point in our code.
+
+first we must comment and define what we want to do when the button is clicked.
+
+remember we stored an array for the scores of each player and the activePlayer which stores the activePlayer
+
+}); 
+//ending point of our last button for "btn-roll"
+
+scores[activePlayer] += roundScore;
+scores[activePlayer] will list the scores of the active player eventhough the array only has numbers in it [17,0].  Because the active player is 0 it will say activePlayer is 0 placeholder in the scores array.
+
+Next we need to update the UI but first we need to identify where that is in the HTML document.
+remember # = select by id AND . = select by class name
+
+document.querySelector('.btn-hold).addEventListener('click', function() {
+    //add CURRENT score to GLOBAL score (activePlayer who is current playing will have his score updated to scores array.
+    scores[activePlayer] += roundScore;
+    
+    //Update the UI
+    document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+    
+    
+    //CHeck if player won the game
+});
+
+now test it.
+
+However, you'll notice when we hit hold it should be changing the active player.  This will be now implemented
+
+you'll remember that we did exactly that in the last lecture as this is what happens when the user rolls a 1.  We will implement the same thing here.
+
+Copy the "Next Player" code from the btn-roll button.
+
+REMEMBER THE DRY PRINCIPLE = it is best not to repeat yourself. You can get around this by implementing a fucntion which we will do.  Go below to function next to find out
+
+    //Update the UI
+    document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+    
+    
+    
+    //CHeck if player won the game
+    
+    //Next Player
+    
+});
+
+function nextPlayer() {
+    //Next Player
+        activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+        roundScore = 0;
+    
+       document.getElementById('current-0').textContent = '0';
+        document.getElementById('current-1').textContent = '0';
+        
+       document.querySelector('.player-0-panel').classList.toggle('active');
+        document.querySelector('.player-1-panel').classList.toggle('active');
+        
+        //document.querySelector('.player-0-panel').classList.remove('active');
+        //document.querySelector('.player-1-panel').classList.add('active');  
+        
+        document.querySelector('.dice').style.display = 'none';
+}
+
+now we can call this function in our btn-hold and in our btn-roll buttons.
+
+    //Update the UI
+    document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+    
+    
+    
+    //CHeck if player won the game
+    
+    //Next Player
+    nextPlayer();
+    
+});
+
+JUST LIKE THIS WE USED THE DRY PRINCIPLE THAT IS DO NOT REPEAT YOURSELF.
+
+another thing we need to do is to define how a player wins the game so we will need to look at the directions.  it Says that "The first player to reach 100 on global score wins the game."  only IF points are greater than or equal to 100 will a player win ELSE its the next players turn.
+
+    //Update the UI
+    document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+    
+        
+    //CHeck if player won the game
+    if (score[activePlayer] >= 100) {
+        document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
+    } else {
+        //Next Player
+    nextPlayer();
+    }
+    
+});
+
+Now all we need to do is to remove the dice and the active player display from the user who won.
+
+
+    //Update the UI
+    document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+    
+        
+    //CHeck if player won the game
+    if (score[activePlayer] >= 100) {
+        document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
+        document.querySelector('.dice').style.display = 'none';
+    } else {
+        //Next Player
+    nextPlayer();
+    }
+    
+});
+
+IT IS NOT GOOD TO MIX CSS AND JAVASCRIPT TOGETHER.  IT IS BETTER TO DO IT THE WAY THE NEXTPLAYER() FUNCTION IS BY TOGGLE THE CSS ELEMENTS INSTEAD OF MODIFYING THE CSS ELEMENTS FROM WITHIN THE JAVASCRIPT CODE.
+
+THIS IS WHY THE TEACHER CREATED A .winner CLASS IN CSS INVESTIGATE THAT DOCUMENT
+
+document.querySelector('.player' + activePlayer + '-panel).classList.add('winner');
+
+('.player' + activePlayer + '-panel) = this fills in the blanks for player-1-panel or player-0-panel as activePlayer will give a 0 or 1         depending upon which is the active player
+
+classList = access the classes this element has (from CSS).
+
+Add('winner') = adding the winner class from the CSS document.
+
+We should also remove the 'active' class as well.
+
+    //Update the UI
+    document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+    
+        
+    //CHeck if player won the game
+    if (score[activePlayer] >= 100) {
+        document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
+        document.querySelector('.dice').style.display = 'none';
+        document.querySelector('.player-' + activePlayer + '-panel')classList.add('winner');
+        document.querySelector('.player-' + activePlayer + '-panel')classList.remove('active');
+    } else {
+        //Next Player
+    nextPlayer();
+    }
+    
+});
+
+//Remember the funtion of toggle is to add the class if the class is not there and to remove the class if the class is there.
+document.querySelector('.player-0-panel').classList.toggle('active');
+document.querySelector('.player-1-panel').classList.toggle('active');
+
+in this case the 'active' class is there and we want to remove it and the 'winner' class is not there and we want to add it.
+
+Next we need to program the ability to start a new game

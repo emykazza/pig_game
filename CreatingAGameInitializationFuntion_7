@@ -1,0 +1,119 @@
+/*
+
+*Practice, Practice, Practice
+
+*/
+
+We will be implementing the new game function and making the new game button work.
+
+When we hit the button the game starts from the beginning.
+
+So if we have a button and an event of course we need to listen to that event.  then once again we will use an event listener. 
+
+inspect the name of the new button.  It is "btn-new".
+
+function nextPlayer() {
+    //Next player
+        activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+        roundScore = 0;
+    
+       document.getElementById('current-0').textContent = '0';
+        document.getElementById('current-1').textContent = '0';
+        
+       document.querySelector('.player-0-panel').classList.toggle('active');
+        document.querySelector('.player-1-panel').classList.toggle('active');
+        
+        //document.querySelector('.player-0-panel').classList.remove('active');
+        //document.querySelector('.player-1-panel').classList.add('active');  
+        
+        document.querySelector('.dice').style.display = 'none';
+}
+
+new button listener with an anonymous function
+
+we could implement the following but REMEMBER THE DRY PRINCIPLE DO NOT REPEAT CODE.  WE ALREADY SAID THIS IN THE BEGINNING WHEN WE DEFINED THE VARIABLE AMOUNTS.  
+    USE A FUNCTION ON THE VARIABLE DEFINITIONS.
+    WE WILL CALL THIS "INIT" FUNCTION
+
+document.querySelector('.btn-new').addEventListener('click', function() {
+    //We need to reset players scores back to 0
+    scores = [0,0];
+    //active player back to 0 as they start it
+    activePlayer = 0;
+    //zero the roundScores
+    roundScore = 0;
+});
+
+DELETE THE VARIABLE DEFINITIONS AND START WRITING THE INIT FUNCTION.
+
+It will receive no parameters.  We will simply insert our code.
+
+function init() {
+    scores = [0,0]
+    activePlayer = 0;
+    roundScore = 0;
+}
+
+Now in replace of where you removed the variable definitions with the arrays etc you should call the init(); function as this will serve as a replacement
+
+now the init() call will serve as a start point for our game.  Because of this we should also add the function to block display the dice as none and to zero out all of the scores.
+
+function init() {
+    scores = [0,0]
+    activePlayer = 0;
+    roundScore = 0;
+
+//gives us a blank field without dice to start the app "Hides the dice"
+document.querySelector('.dice').style.display = 'none';
+
+//Sets scores and roundScores to 0 for each player.
+document.getElementById('score-0').textContent = '0';
+document.getElementById('score-1').textContent = '0';
+document.getElementById('current-0').textContent = '0';
+document.getElementById('current-1').textContent = '0';
+}
+
+We also want this type of action to occur when we press the new game button
+
+document.querySelector('.btn-new').addEventListener('click', function() {
+   init();
+});
+
+! - This here doesn't make a lot of sense. an anonymous function calling another function.  We should remove the anonymous function and leave our new function in the 2nd part of our listener event.
+
+document.querySelector('.btn-new').addEventListener('click', init {
+});
+
+we are not calling the function () otherwise it will call the function immediatly.
+
+we are simply passing into the event listener.  THis will say when somebody clicks the new game button then call the function.
+
+We also want to reset the "winner!" class tag back to the player name.
+copy the last the winner part from the previous lecture
+
+document.getElementById('name-1').textContent = 'Player 1';
+document.getElementById('name-0').textContent = 'Player 2';
+
+We should use getElementById so that it can be similar to other the other 4 that accompany the other init functions.
+
+Remember to remove the Hash # symbol as this is only for the querySelector method.
+
+document.getElementById('score-0').textContent = '0';
+document.getElementById('score-1').textContent = '0';
+document.getElementById('current-0').textContent = '0';
+document.getElementById('current-1').textContent = '0';
+document.getElementById('name-1').textContent = 'Player 1';
+document.getElementById('name-0').textContent = 'Player 2';
+
+test the game again.  You will notice after the game the winner is removed but the text is still Red and the last winner is still grey'd out for being active.
+
+remove the winner class
+document.querySelector('.player-0-panel').classList.remove('winner');
+document.querySelector('.player-1-panel').classList.remove('winner');
+document.querySelector('.player-0-panel').classList.remove('active');
+document.querySelector('.player-1-panel').classList.remove('active');
+document.querySelector('.player-0-panel').classList.add('active');
+
+we first remove the active both players that way we are sure that we dont accidently leave one active and the other not.  THis way we can be sure we have a blank plate before we set active for player 0 or player 1 again.
+
+Now test it again.

@@ -1,0 +1,180 @@
+/*
+
+What we will learn
+
+* What the ternary operator is;
+
+*How to add, remove and toggle HTML classes;
+
+*/
+//we will contine with the dice roll function
+
+document.querySelector('.btn-roll').addEventListener('click, function() {
+    
+    //1. Random number.
+    var dice = Math.floor(Math.random() * 6) + 1;
+    
+    //2. Display the result.
+    var diceDOM = document.querySelector('.dice');
+    diceDOM.src = 'dice-' + dice '.png';
+    
+    //3. Update the round score IF the rolled number was NOT a 1.
+    if (dice !== 1) {
+        //Add score
+        roundScore += dice;
+        //this is same as roundScore = roundScore + dice
+        
+        //rememeber that scoping chain gives this function access to roundScore.
+        
+        document.querySelector('#current-' + activePlayer).textContent = roundScore;
+        
+    } else {
+        //Next player
+    }
+    
+        
+});
+
+
+we will continue to develop our game logic starting at 3.
+ 
+ if the user rolls a number different from 1 then the score is added to his round score and he can contiue to play then otherwise if he rolls a 1 then it's the next players turn.  We can do this via a IF statement
+ 
+ //we can use > for greater than 1 but we can also use different than 1 or !==
+ 
+//Remember that the double == doesn't do type coersion vs the dingle =  which does do type coersion.
+ 
+ //!Its good to add a comment telling people what the if statement is doing.
+
+add the score
+
+remember that roundscore += dice is the same as roundscore = roundscore + dice.
+
+we also want to display the dice when we have this value
+
+document.querySelector('#current-' + activePlayer).textContent = roundScore;
+
+change active player to 0.
+
+now we need to implement the logic that when one user gets a 1 its the other users turn.
+
+If its 0 we want 1 and if 1 we want 0.  if would make sense to use and IF - ELSE statement but we will use something difference the "TERNARY" operator.  We've used this before.
+
+} else {
+    //next player
+    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+}
+
+//this "ternary operator"
+activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+
+//is the same as this "If - Else Statement"
+if (activePlayer === 0) {
+    activePlayer = 1;
+} else {
+    activePlayer = 0;
+}
+
+except the ternary operator is cleaner.
+
+Test it.  It should now roll dice and add score to current until you reach a 1 then it should flip to the other players turn.
+
+However, it is not restarting the current score to 0 once the 1 is hit so we need to add that function.
+
+We need to set the round score back to 0
+
+} else {
+    //next player
+    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+    
+    roundscore = 0;
+}
+
+It must also be set to 0 in the user interface so lets do that. 
+
+we must do it for both user 0 and user 1.
+
+} else {
+    //next player
+    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+    
+    roundscore = 0;
+
+    document.getElementById('current-0').textContent = '0';
+    document.getElementById('current-1').textContent = '0';
+
+}
+
+We must also make visibal in interface who is the active player by gold text and grey outline.
+
+notice that <div class="player-0-panel active"> for first user.  it is this that makes the outline of active player we must use this.
+
+if we take away "active" then the panel will show as normal.  We must take the active away from the first player and apply the active to the 2nd users panel.
+
+a cool way of adding styles is by removing and adding classes like we will do now.
+
+we will use querySelector because its a class. the class is called player-0-panel in the html document.
+
+} else {
+    //next player
+    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+    
+    roundscore = 0;
+
+    document.getElementById('current-0').textContent = '0';
+    document.getElementById('current-1').textContent = '0';
+    
+    document.querySelector('.player-0-panel').classList.remove('active');
+    document.querySelector('.player-1-panel').classList.add('active');
+}
+
+You should notice that the player will switch to 2 but will not switch back to 1 when player 2 rolls a 1.
+
+Javascript has the "toggle" function which will add the class if its not there and will remove it if it is there.
+
+if player 0 has the active it will remove it.  If player 0 doesn't have the active then it will add it
+
+instead it will be toggle as follows
+
+} else {
+    //next player
+    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+    
+    roundscore = 0;
+
+    document.getElementById('current-0').textContent = '0';
+    document.getElementById('current-1').textContent = '0';
+    
+    document.querySelector('.player-0-panel').classList.toggle('active');
+    document.querySelector('.player-1-panel').classList.toggle('active');
+    
+    //document.querySelector('.player-0-panel').classList.remove('active');
+    //document.querySelector('.player-1-panel').classList.add('active');
+}
+
+something else we want to do is when a player rolls a 1 we want to hide the dice again.  we have already done that for the 'block' portion of our code.  lets do that now
+
+} else {
+    //next player
+    activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
+    
+    roundscore = 0;
+
+    document.getElementById('current-0').textContent = '0';
+    document.getElementById('current-1').textContent = '0';
+    
+    document.querySelector('.player-0-panel').classList.toggle('active');
+    document.querySelector('.player-1-panel').classList.toggle('active');
+    
+    //document.querySelector('.player-0-panel').classList.remove('active');
+    //document.querySelector('.player-1-panel').classList.add('active');
+
+    document.querySelector('.dice').style.display = 'none';
+}
+ .dice = dice class . is class selector
+ 
+ style = changing CSS property
+ 
+ display = changing the CSS display property to 'none'
+ 
+ In the next lecture we will make out round points add to our global points.

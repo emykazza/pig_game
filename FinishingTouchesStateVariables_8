@@ -1,0 +1,75 @@
+/*
+
+* What a state variable is, how to use it and why
+
+*/
+
+Remember that the problem was we can continue to play the game after a winner has been declared.
+
+State variables = Tells us the condition of a system.  We require a state variable when we need to remember the state of something. like a static website.
+
+The state variable will be used to remember the state of our application if the game is being played or not.
+
+notice var scores, roundScore etc.  THese are being defined in the global scope so every function has access to it.  we will define our state variable here so everything can access it. 
+
+"gamePlaying"
+
+var scores, roundScore, ActivePlayer, gamePlaying;
+
+We do not need to define it here we need to declare it here.
+
+we want gamePlaying = true; under the init() function.  That way upon start pressing "new game" the gameplaying value will start in a true state allowing you to press "roll" and "hold" for the game options.
+function init () {
+    scores = [0,0];
+    roundScore = 0;
+    activePlayer = 0;
+    gamePlaying = true;
+
+
+We want our gameplaying variable to be false only after a winner is declared.  Otherwise the game is being played and it should be true.
+
+The gamePlaying variable is already true or false so we should add a if statement at the beginning by itself as the gamePlaying variable is already a true false value
+
+document.querySelector('.btn-roll)
+if(gameplaying) {
+    //cut and paste all contents of btn-roll button here.
+}
+
+that way the button will only work if the game is being played.
+
+we should also set somewhere in our code so that after a winner is declared the gamePlaying state variable is set to false. that way no matter how many times you hit roll it will not work because the roll if statement is looking for a true value not false.
+
+gamePlaying = false;
+
+ //Check if player won the game
+    if(scores[activePlayer] >= 20) {
+        document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
+        document.querySelector('.dice').style.display = 'none';
+        document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+        document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+        gamePlaying = false;
+        
+We also only want to be able to hold our points if the game is being played so we will want to do the same for the hold button as well.
+
+
+document.querySelector('.btn-hold').addEventListener('click', function() {
+    if(gamePlaying) {
+         //add CURRENT score to GLOBAL score (activePlayer who is current playing will have his score updated to scores array.
+    scores[activePlayer] += roundScore;
+    
+    //Update the UI
+    document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+    
+    //Check if player won the game
+    if(scores[activePlayer] >= 20) {
+        document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
+        document.querySelector('.dice').style.display = 'none';
+        document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
+        document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
+        gamePlaying = false;
+    } else {
+        //Next Player
+    nextPlayer();
+    }
+  
+});
