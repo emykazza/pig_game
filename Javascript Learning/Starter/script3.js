@@ -101,4 +101,95 @@ interviewQuestion2('teacher')('John');
 
 
 //BIND CALL AND APPLY
+//These are powerfull methods that all functions inherit.
+//These methods allow us to call the functions, set the this variable manually.
+
+//to show we will create a very simple object.  No fancy function constructors or inheritance
+
+//just var and the object literal syntax
+var john = {
+    name: 'John',
+    age: 26,
+    job: 'teacher',
+    //we will now create a method for john to present himself.
+    //We will have two styles of presenting himself.
+    //this method will have a sentence in which he presents himself.
+    //this will also be dependent on the time of day
+    presentation: function (style, timeOfDay) {
+        if (style === 'formal') {
+            console.log('Good ' + timeOfDay + ', LADIES AND GENTLEMAN! I\'m ' + this.name + ', I\'m a ' + this.job + ',and I\'m ' + this.age + ' years old');
+        } else if (style === 'friendly') {
+            console.log('Hey! Whats up? I\'m ' + this.name + ', I\'m a ' + this.job + ', and I\'m ' + this.age + ' years old.  Have a nice ' + timeOfDay + '.');
+        }
+    }
+
+};
+
+var emily = {
+    name: 'Emily',
+    age: '35',
+    job: 'designer'
+};
+
+//testing it
+john.presentation('formal', 'morning');
+
+
+//Emily does not have the presentation method in her object.  We can use the call method to borrow the method from john object.  Use the "call" Method and set the "this variable which will look like the first argument.
+john.presentation.call(emily, 'friendly', 'afternoon');
+//notice "call' Method, then 'emily' for setting the "this variable".
+//THIS IS CALLED METHOD BORROWING.
+//The CALL method allows us to set the 'THIS' variable.  
+
+//APPLY Method accepts the arguments as an array.
+//john.presentation.apply(emily, ['friendly', 'afternoon']);
+//to accept an array the method must be prepared for it as this wont' work with our code.
+
+
+//BIND Method
+//very similar to call allows us to set this variable.  Bind creates a copy of method so we can store it somewhere. IT DOESN"T IMMEDIATLY CALL IT.
+//This can be useful set set a function with preset arguments.
+
+//because bind will return a copy of a function we will need to store that somewhere and that is inside a variable.
+var johnFriendly = john.presentation.bind(john, 'friendly', )   //style set but not timeOfDay yet.
+//REMEMBER THIS "BIND" METHOD RETURNS A FUNCTION AND IT WILL BE STORED IN THE JOHNFRIENDLY VARIABLE.
+//Now when we call it there is only one argument to set like follows.
+johnFriendly('morning');
+//so we have a function now that is always for the friendly version and we can use it further.
+johnFriendly('Night');
+//BIND allows us to preset some arguments.
+//BIND allows us to copy create a copy of a method and store it inside a variable.  
+//This is also called "carrying" which is when we create a function that is a copy of another function but with some preset parameters.  Which is exactly what we just did.
+
+var emilyFormal = john.presentation.bind(emily, 'formal');
+emilyFormal('afternoon');
+
+//we will now take old code we wrote before and use these methods we learned to improve it
+var years = [1936, 1939, 1946, 1967, 1977, 1980, 1984, 1985, 1987, 1990, 1992, 1999, 2001, 2003];
+function arrCalc(arr, fn) {
+    var arrRes = [];
+    for (var i = 0; i < arr.length; i++) {
+        arrRes.push(fn(arr[i]));
+    }
+    return arrRes;
+}
+
+function ageCalc(el) {
+  return 2019 - el; 
+}
+
+//instead of 18 we use limit which we will later define on per country basis
+function ofAge(limit, el) {
+    return (el >= limit);
+    
+}
+
+var ages = arrCalc(years, ageCalc);
+//notice that we have two arguments for ofAge and our arrCalc only accepts 1 argument on line 172.  THe best thing to do would be to pass in our modified ofAge but with the limit already preset.  Bind will allow us to create a copy of a function with a preset argument
+var fullJapan = arrCalc(ages, ofAge.bind(this, 20));
+//now a copy of the isFullAge will be enterin as an argument but not the function itself "ONLY A COPY WITH 20 AS THE PRESET ARGUMENT"
+//this is the element that will be judged in array
+//Limit is whats being bound (copied) in effort to use it with another function which is stored in the fullJapan variable.  
+console.log(ages);
+console.log(fullJapan);
 
