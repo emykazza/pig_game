@@ -106,3 +106,11 @@ Function Constructors and Object.Create are the two most common types of ways to
 But, the most popular way is still function constructor.     
 
 //MOVE TO SCRIPT2.JS
+
+/*
+I added sc to the if correct and if false and added a string to mention the score
+
+if there is an issues think "why is this happening.
+
+*/
+
