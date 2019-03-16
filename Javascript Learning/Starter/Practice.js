@@ -189,4 +189,49 @@ other('John');
 other('Chris');
 interviewQuestion('teacher')('Jack');
 
+//BIND APPLY CALL
 
+var john = {
+    name: 'John',
+    age: '27',
+    job: 'teacher',
+    presentation: function(style, timeOfDay) {
+        if (style === 'formal') {
+            console.log('Good ' + timeOfDay + ' Ladies and gentleman! I\'m ' + this.name + ', I\'m a ' + this.job + ' and I\'m ' + this.age + ' years old.');
+        } else if (style === 'friendly') {
+            console.log('Hey! What\'s up? I\'m ' + this.name + ', I\'m a ' + this.job + ' and I\'m ' + this.age + ' years old.  Have a nice ' + timeOfDay);
+            
+    } 
+    
+}
+};
+
+var jane = {
+    name: 'Jane',
+    age: '35',
+    job: 'teacher',
+};
+
+john.presentation('formal', 'afternoon');
+john.presentation.call(jane, 'friendly', 'morning');
+//CALL lets us set the this variable and borrow it for use with the jane object.
+
+/*
+//APPLY is used for arrays.
+john.presentation.apply(jane, ['friendly', 'formal'], 'afternoon');
+//however our method doesn't expect an array
+*/
+
+/*BIND generates a copy of the function so we can store it somewhere.  This can be extremely useful to create functions with preset arguments.
+Remember the bind method will return a function and when you return a function you need to store it somewhere like in a variable.
+*/
+var johnFriendly = john.presentation.bind(john, 'friendly');
+//the bind method returns a function which is stored in the 'johnFriendly' variable.
+
+//Now only 1 argument remains which we will set.
+johnFriendly('morning');
+//THis is "carrying" creating a function with preset parameters that is based on another function.
+johnFriendly('night');
+
+var janeFormal = john.presentation.bind(jane, 'formal');
+janeFormal('afternoon');

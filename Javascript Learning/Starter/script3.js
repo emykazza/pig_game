@@ -187,9 +187,9 @@ function ofAge(limit, el) {
 var ages = arrCalc(years, ageCalc);
 //notice that we have two arguments for ofAge and our arrCalc only accepts 1 argument on line 172.  THe best thing to do would be to pass in our modified ofAge but with the limit already preset.  Bind will allow us to create a copy of a function with a preset argument
 var fullJapan = arrCalc(ages, ofAge.bind(this, 20));
-//now a copy of the isFullAge will be enterin as an argument but not the function itself "ONLY A COPY WITH 20 AS THE PRESET ARGUMENT"
+//now a copy of the isFullAge will be entered in as an argument but not the function itself "ONLY A COPY WITH 20 AS THE PRESET ARGUMENT"  20 is put to the front of the list.  and "this" tells it to use the scoping chain to find t"THIS" which is the elements provided by the arrayCalc and ages function.  But anything after .bind(this, is prepended (added to the front of the line and evaluated first which is why limit is listed first) then anything in this.prototype is evaluated as the element in this case ages of each person calculated by the age AgeCalc 
 //this is the element that will be judged in array
-//Limit is whats being bound (copied) in effort to use it with another function which is stored in the fullJapan variable.  
+//Limit is whats being bound (copied) in effort to use it with another function which is stored in the fullJapan variable. 20 in this case  
 console.log(ages);
 console.log(fullJapan);
 
